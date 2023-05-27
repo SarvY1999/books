@@ -2,7 +2,6 @@ const Book = require('../models/book');
 const { StatusCodes } = require('http-status-codes');
 
 const createBook = async (req, res) => {
-    console.log(req.body);
     const book = await Book.create(req.body);
     res.status(StatusCodes.CREATED).json({ book });
 };
@@ -34,14 +33,13 @@ const updateBook = async (req, res) => {
 const deleteBook = async (req, res) => {
     const { id } = req.params;
 
-    const book = await Book.findOneAndRemove({ isbn: id });
+    const book = await Book.findOneAndDelete({ isbn: id });
 
     if (!book) {
         return res.status(StatusCodes.NOT_FOUND);
     }
     res.status(StatusCodes.OK).json({ msg: `${book.name} is successfully deleted` });
 }
-
 module.exports = {
     createBook,
     getAllbook,
